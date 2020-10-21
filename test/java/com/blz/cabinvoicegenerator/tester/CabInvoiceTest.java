@@ -6,6 +6,7 @@ package com.blz.cabinvoicegenerator.tester;
 import org.junit.Test;
 
 import com.blz.cabinvoicegenerator.controler.CabInvoiceGenerator;
+import com.blz.cabinvoicegenerator.controler.Ride;
 
 import org.junit.Assert;
 
@@ -13,17 +14,26 @@ public class CabInvoiceTest {
 	@Test
 	public void givenDistanceAndTime_ShouldReturnTotalFare() {
 		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
-		double distance=2.0;
-		int time=5;
+		double distance = 2.0;
+		int time = 5;
 		double actualfare = cabInvoiceObj.calculateFare(distance, time);
 		Assert.assertEquals(25.0, actualfare, 0.0);
 	}
+
 	@Test
 	public void givenLessDistanceOrTime_ShouldReturnTotalMinFare() {
 		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
-		double distance=0.1;
-		int time=1;
+		double distance = 0.1;
+		int time = 1;
 		double actualfare = cabInvoiceObj.calculateFare(distance, time);
 		Assert.assertEquals(5.0, actualfare, 0.0);
+	}
+
+	@Test
+	public void givenMultipleRides_ShouldReturnAggregateFare() {
+		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
+		Ride[] rides = { new Ride(2.0, 5), new Ride(4.0, 3), new Ride(5.0, 2), new Ride(6.0, 5), new Ride(0.1, 1) };
+		double totalFare = cabInvoiceObj.calculateFare(rides);
+		Assert.assertEquals(190.0, totalFare, 0);
 	}
 }
