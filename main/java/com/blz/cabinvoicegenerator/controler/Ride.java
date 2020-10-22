@@ -1,12 +1,18 @@
 package com.blz.cabinvoicegenerator.controler;
 
 public class Ride {
+	public enum RideType {
+		NORMAL_RIDE, PREMIUM_RIDE;
+	}
+
 	private double distance;
 	private int time;
-	
-	public Ride(double distance, int time) {
+	public RideType rideType;
+
+	public Ride(double distance, int time, RideType rideType) {
 		this.distance = distance;
 		this.time = time;
+		this.rideType=rideType;
 	}
 
 	public double getDistance() {

@@ -17,6 +17,6 @@ public class RideRepository {
 	}
 
 	public Ride[] getRides(int userId) {
-		return this.userRides.get(userId).toArray(new Ride[5]);
+		return this.userRides.get(userId).toArray(new Ride[1]);  //can be Ride[2] or Ride[3] etc
 	}
 }
