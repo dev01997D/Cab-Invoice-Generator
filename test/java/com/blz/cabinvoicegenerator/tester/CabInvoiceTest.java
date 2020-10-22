@@ -6,14 +6,22 @@ package com.blz.cabinvoicegenerator.tester;
 import org.junit.Test;
 
 import com.blz.cabinvoicegenerator.controler.CabInvoiceGenerator;
+import com.blz.cabinvoicegenerator.controler.InvoiceSummary;
 import com.blz.cabinvoicegenerator.controler.Ride;
 
 import org.junit.Assert;
+import org.junit.Before;
 
 public class CabInvoiceTest {
+	CabInvoiceGenerator cabInvoiceObj = null;
+
+	@Before
+	public void setup() {
+		cabInvoiceObj = new CabInvoiceGenerator();
+	}
+
 	@Test
 	public void givenDistanceAndTime_ShouldReturnTotalFare() {
-		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
 		double distance = 2.0;
 		int time = 5;
 		double actualfare = cabInvoiceObj.calculateFare(distance, time);
@@ -22,7 +30,6 @@ public class CabInvoiceTest {
 
 	@Test
 	public void givenLessDistanceOrTime_ShouldReturnTotalMinFare() {
-		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
 		double distance = 0.1;
 		int time = 1;
 		double actualfare = cabInvoiceObj.calculateFare(distance, time);
@@ -30,10 +37,10 @@ public class CabInvoiceTest {
 	}
 
 	@Test
-	public void givenMultipleRides_ShouldReturnAggregateFare() {
-		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
+	public void givenMultipleRides_ShouldReturnInvoiceSummary() {
 		Ride[] rides = { new Ride(2.0, 5), new Ride(4.0, 3), new Ride(5.0, 2), new Ride(6.0, 5), new Ride(0.1, 1) };
-		double totalFare = cabInvoiceObj.calculateFare(rides);
-		Assert.assertEquals(190.0, totalFare, 0);
+		InvoiceSummary invoiceSummaryActual = cabInvoiceObj.calculateFare(rides);
+		InvoiceSummary invoiceSummaryExpected = new InvoiceSummary(5, 190.0);
+		Assert.assertEquals(invoiceSummaryExpected, invoiceSummaryActual);
 	}
 }
