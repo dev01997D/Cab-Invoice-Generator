@@ -24,5 +24,9 @@ public class Ride {
 	public void setTime(int time) {
 		this.time = time;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Ride [distance=" + distance + ", time=" + time + "]";
+	}
 }

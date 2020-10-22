@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.blz.cabinvoicegenerator.controler.CabInvoiceGenerator;
 import com.blz.cabinvoicegenerator.controler.InvoiceSummary;
 import com.blz.cabinvoicegenerator.controler.Ride;
+import com.blz.cabinvoicegenerator.controler.RideRepository;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,10 +38,28 @@ public class CabInvoiceTest {
 	}
 
 	@Test
+	public void givenMultipleRides_ShouldReturnAggregateFare() {
+		CabInvoiceGenerator cabInvoiceObj = new CabInvoiceGenerator();
+		Ride[] rides = { new Ride(2.0, 5), new Ride(4.0, 3), new Ride(5.0, 2), new Ride(6.0, 5), new Ride(0.1, 1) };
+		double totalFare = cabInvoiceObj.getTotalFareMultipleRides(rides);
+		Assert.assertEquals(190.0, totalFare, 0);
+	}
+	
+	@Test
 	public void givenMultipleRides_ShouldReturnInvoiceSummary() {
 		Ride[] rides = { new Ride(2.0, 5), new Ride(4.0, 3), new Ride(5.0, 2), new Ride(6.0, 5), new Ride(0.1, 1) };
 		InvoiceSummary invoiceSummaryActual = cabInvoiceObj.calculateFare(rides);
 		InvoiceSummary invoiceSummaryExpected = new InvoiceSummary(5, 190.0);
 		Assert.assertEquals(invoiceSummaryExpected, invoiceSummaryActual);
+	}
+
+	@Test
+	public void givenUserIdAndRides_ShouldReturnUserInvoiceSummary() {
+		Integer userId = 101;
+		Ride[] rides = { new Ride(2.0, 5), new Ride(4.0, 3), new Ride(5.0, 2), new Ride(6.0, 5), new Ride(0.1, 1) };
+		cabInvoiceObj.addRides(userId, rides);
+		InvoiceSummary invoiceSummaryActual = cabInvoiceObj.getInvoiceSummary(userId);
+		InvoiceSummary summaryExpected = new InvoiceSummary(5, 190);
+		Assert.assertEquals(invoiceSummaryActual, summaryExpected);
 	}
 }
